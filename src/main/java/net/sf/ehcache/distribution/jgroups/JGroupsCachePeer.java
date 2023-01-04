@@ -16,16 +16,6 @@
 
 package net.sf.ehcache.distribution.jgroups;
 
-import net.sf.ehcache.Element;
-import net.sf.ehcache.distribution.CachePeer;
-import org.jgroups.Address;
-import org.jgroups.Channel;
-import org.jgroups.Message;
-import org.jgroups.View;
-import org.jgroups.util.Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -38,8 +28,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
+import org.jgroups.Address;
+import org.jgroups.JChannel;
+import org.jgroups.Message;
+import org.jgroups.View;
+import org.jgroups.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.distribution.CachePeer;
+
 /**
- * Handles {@link CachePeer}functions around a JGroups {@link Channel} and a
+ * Handles {@link CachePeer}functions around a JGroups {@link JChannel} and a
  * {@link CacheManager}
  *
  * @author Eric Dalquist
@@ -50,7 +52,7 @@ public class JGroupsCachePeer implements CachePeer {
 
     private static final int CHUNK_SIZE = 100;
 
-    private final Channel channel;
+    private final JChannel channel;
     private final ConcurrentMap<Long, Queue<JGroupEventMessage>> asyncReplicationQueues =
             new ConcurrentHashMap<Long, Queue<JGroupEventMessage>>();
     private final Timer timer;
@@ -59,7 +61,7 @@ public class JGroupsCachePeer implements CachePeer {
     /**
      * Create a new {@link CachePeer}
      */
-    public JGroupsCachePeer(Channel channel, String clusterName) {
+    public JGroupsCachePeer(JChannel channel, String clusterName) {
         this.channel = channel;
         this.alive = true;
         this.timer = new Timer(clusterName + " Async Replication Thread", true);
@@ -205,7 +207,7 @@ public class JGroupsCachePeer implements CachePeer {
         }
         
         //Send it off to the group
-        final Message msg = new Message(dest, null, data);
+        final Message msg = new Message(dest, data);
         try {
             this.channel.send(msg);
         } catch (IllegalStateException e) {

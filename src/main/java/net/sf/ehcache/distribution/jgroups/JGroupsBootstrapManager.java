@@ -31,15 +31,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.jgroups.Address;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.distribution.jgroups.BootstrapRequest.BootstrapStatus;
 import net.sf.ehcache.util.NamedThreadFactory;
-
-import org.jgroups.Address;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Manages bootstrap requests and responses
@@ -286,7 +286,7 @@ public class JGroupsBootstrapManager {
                     final int randomPeerNumber = BOOTSTRAP_PEER_CHOOSER.nextInt(addresses.size());
                     final Address address = addresses.remove(randomPeerNumber);
                     
-                    JGroupEventMessage event = new JGroupEventMessage(JGroupEventMessage.BOOTSTRAP_REQUEST, localAddress, null, cacheName);
+                    JGroupEventMessage event = new JGroupEventMessage(JGroupEventMessage.BOOTSTRAP_REQUEST, AddressWrapper.from(localAddress), null, cacheName);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Requesting bootstrap of {} from {}", cacheName, address);
                     }
@@ -359,7 +359,7 @@ public class JGroupsBootstrapManager {
 
         @Override
         public void runInternal() {
-            final Address requestAddress = (Address) this.message.getSerializableKey();
+            final Address requestAddress = ((AddressWrapper) this.message.getSerializableKey()).getAddress();
             final String cacheName = this.message.getCacheName();
             final Ehcache cache = cacheManager.getEhcache(cacheName);
             if (cache == null) {

@@ -17,16 +17,16 @@
 
 package net.sf.ehcache.distribution.jgroups;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.distribution.CacheManagerPeerProvider;
-import net.sf.ehcache.distribution.CacheManagerPeerProviderFactory;
-import net.sf.ehcache.util.ClassLoaderUtil;
-import net.sf.ehcache.util.PropertyUtil;
+import java.net.URL;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
-import java.util.Properties;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.distribution.CacheManagerPeerProvider;
+import net.sf.ehcache.distribution.CacheManagerPeerProviderFactory;
+import net.sf.ehcache.util.PropertyUtil;
 
 /**
  * @author Pierre Monestie (pmonestie__REMOVE__THIS__@gmail.com)
@@ -58,7 +58,7 @@ public class JGroupsCacheManagerPeerProviderFactory extends CacheManagerPeerProv
                 LOG.warn("Both '" + CONNECT + "' and '" + FILE + "' properties set. '" + CONNECT + "' will be ignored");
             }
             
-            final ClassLoader contextClassLoader = ClassLoaderUtil.getStandardClassLoader();
+            final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
             final URL configUrl = contextClassLoader.getResource(file);
             
             LOG.debug("Creating JGroups CacheManagerPeerProvider for {} with configuration file: {}", cacheManager.getName(), configUrl);
