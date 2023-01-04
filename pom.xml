@@ -24,4 +24,22 @@
 			<version>4.2.18.Final</version>
 		</dependency>
 	</dependencies>
+
+	<scm>
+		<url>git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</url>
+		<connection>scm:git:git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</connection>
+		<developerConnection>scm:git:https://github.com/apidae-tourisme/ehcache-jgroupsreplication.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshot-bucket</id>
+			<url>s3://apidae-sit-packages/snapshot</url>
+		</snapshotRepository>
+		<repository>
+			<id>release-bucket</id>
+			<url>s3://apidae-sit-packages/release</url>
+		</repository>
+	</distributionManagement>
 </project>
