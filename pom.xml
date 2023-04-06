@@ -38,6 +38,17 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<extensions>
+			<!-- this is to enable the scp protocol in site deploy -->
+			<extension>
+				<groupId>com.gkatzioura.maven.cloud</groupId>
+				<artifactId>s3-storage-wagon</artifactId>
+				<version>2.3</version>
+			</extension>
+		</extensions>
+	</build>
+
 	<scm>
 		<url>git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</url>
 		<connection>scm:git:git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</connection>
