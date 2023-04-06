@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>apidae.tools</groupId>
 	<artifactId>ehcache-jgroupsreplication</artifactId>
-	<version>0.18-SNAPSHOT</version>
+	<version>0.18</version>
 
 	<name>EhCache &amp; JGroups integration</name>
 
@@ -53,7 +53,7 @@
 		<url>git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</url>
 		<connection>scm:git:git@github.com:apidae-tourisme/ehcache-jgroupsreplication.git</connection>
 		<developerConnection>scm:git:https://github.com/apidae-tourisme/ehcache-jgroupsreplication.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>0.18</tag>
 	</scm>
 
 	<distributionManagement>
